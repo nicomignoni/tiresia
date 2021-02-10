@@ -21,3 +21,5 @@ autopred.fit(x_train, y_train, x_test, y_test)
 predictions = autopred.predictions
 results     = autopred.results
 
+print(results)
+
