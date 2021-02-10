@@ -5,7 +5,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, accuracy_score, make_scorer
 
-from utils import to_ignore, print_progress
+from tiresia.utils import to_ignore, print_progress
 
 import time
 
@@ -50,8 +50,9 @@ class AutoPredictor:
         # Final results dataframe
         self.results = pd.DataFrame(columns={self.estimator_type.upper(), self.scoring.__name__})
 
-        # Predictions
+        # Predictions and best params
         self.predictions = dict()
+        self.best_params = dict()
 
         self.param_grid   = param_grid 
         self.random_state = random_state
@@ -85,6 +86,9 @@ class AutoPredictor:
                 time_elapsed = end - start
                 total_time  += time_elapsed
 
+                self.predictions[name] = preds
+                self.best_params[name] = model.best_params_
+
                 # Print the current estimator progresses
                 if self.verbose:
                     print_progress(name, time_elapsed, self.scoring.__name__, score)
@@ -104,8 +108,6 @@ class AutoPredictor:
         if self.verbose:
             print("Total time elapsed: {:.3f}".format(total_time))
 
-    def get_results(self):
-        return results
         
             
         

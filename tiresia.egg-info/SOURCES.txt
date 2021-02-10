@@ -1,0 +1,10 @@
+README.md
+setup.py
+test/test.py
+tiresia/__init__.py
+tiresia/predictor.py
+tiresia/utils.py
+tiresia.egg-info/PKG-INFO
+tiresia.egg-info/SOURCES.txt
+tiresia.egg-info/dependency_links.txt
+tiresia.egg-info/top_level.txt

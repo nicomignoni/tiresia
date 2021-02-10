@@ -17,7 +17,6 @@ to_ignore = {"regressor": {"TheilSenRegressor",
              "classifier": {"CheckingClassifier", 
                             "ClassifierChain",
                             "ComplementNB",
-                            "GradientBoostingClassifier",
                             "HistGradientBoostingClassifier",
                             "MLPClassifier", 
                             "LogisticRegressionCV", 
@@ -27,10 +26,11 @@ to_ignore = {"regressor": {"TheilSenRegressor",
                             "OneVsRestClassifier",
                             "OutputCodeClassifier", 
                             "RadiusNeighborsClassifier",
+                            "StackingClassifier",
                             "VotingClassifier"}
             }
 
 def print_progress(name, time_elapsed, scoring_name, score):
     print("- {}: \n"
-          " Time elapsed: {:.3f} s \n"
+          " Time elapsed: {:.2f} s \n"
           " {}: {:.3f} \n".format(name, time_elapsed, scoring_name, score))

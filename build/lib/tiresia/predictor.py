@@ -5,7 +5,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, accuracy_score, make_scorer
 
-from utils import to_ignore, print_progress
+from tiresia.utils import to_ignore, print_progress
 
 import time
 
@@ -22,7 +22,7 @@ class AutoPredictor:
                  verbose=True,
                  n_jobs=1):
 
-        self.estimator_type = estimator_type # ["classifier", "regressor"]
+        self.estimator_type = estimator_type
         
         # Load the estimators
         if models_to_test == "all":
@@ -38,21 +38,26 @@ class AutoPredictor:
 
         # Scoring function
         if scoring:
-            self.scoring = scoring
+            self.scoring           = scoring
+            self.greater_is_better = greater_is_better
         elif estimator_type == "regressor":
-            self.scoring = mean_squared_error
+            self.scoring           = mean_squared_error
+            self.greater_is_better = False
         elif estimator_type == "classifier":
-            self.scoring = accuracy_score
+            self.scoring           = accuracy_score
+            self.greater_is_better = True
 
         # Final results dataframe
-        self.results = pd.DataFrame(columns={self.estimator_type.upper(),
-                                             self.scoring.__name__})
+        self.results = pd.DataFrame(columns={self.estimator_type.upper(), self.scoring.__name__})
 
-        self.greater_is_better = greater_is_better
-        self.param_grid        = param_grid 
-        self.random_state      = random_state
-        self.n_jobs            = n_jobs
-        self.verbose           = verbose
+        # Predictions and best params
+        self.predictions = dict()
+        self.best_params = dict()
+
+        self.param_grid   = param_grid 
+        self.random_state = random_state
+        self.n_jobs       = n_jobs
+        self.verbose      = verbose
 
     def fit(self, X_train, Y_train, X_val, Y_val):
         total_time = 0
@@ -60,9 +65,15 @@ class AutoPredictor:
             try:
                 start = time.time()
 
-                # Fit the current regressor and calculate the score
+                # Check if the estimator has a param_grid
+                if name in self.param_grid:
+                    estimator_grid = self.param_grid[name]
+                else:
+                    estimator_grid = dict()
+
+                # Fit the current estimator and calculate the score
                 model = GridSearchCV(estimator=estimator(),
-                                     param_grid=self.param_grid,
+                                     param_grid=estimator_grid,
                                      scoring=make_scorer(self.scoring,
                                                          self.greater_is_better),
                                      n_jobs=self.n_jobs)
@@ -75,6 +86,9 @@ class AutoPredictor:
                 time_elapsed = end - start
                 total_time  += time_elapsed
 
+                self.predictions[name] = preds
+                self.best_params[name] = model.best_params_
+
                 # Print the current estimator progresses
                 if self.verbose:
                     print_progress(name, time_elapsed, self.scoring.__name__, score)
@@ -85,7 +99,8 @@ class AutoPredictor:
                                                   ignore_index=True)
             except Exception as e:
                 print(f"- {name}: \n {e} \n")
-            
+
+        # Sort the results, depending on the nature of the scoring function
         self.results.sort_values(by=[self.scoring.__name__],
                                  ascending=not self.greater_is_better,
                                  inplace=True)
@@ -93,8 +108,6 @@ class AutoPredictor:
         if self.verbose:
             print("Total time elapsed: {:.3f}".format(total_time))
 
-    def get_results(self):
-        return results
         
             
         

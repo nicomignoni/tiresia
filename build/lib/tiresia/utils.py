@@ -26,7 +26,7 @@ to_ignore = {"regressor": {"TheilSenRegressor",
                             "OneVsRestClassifier",
                             "OutputCodeClassifier", 
                             "RadiusNeighborsClassifier",
-                            "StackingClassifier"
+                            "StackingClassifier",
                             "VotingClassifier"}
             }
 
