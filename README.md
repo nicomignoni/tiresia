@@ -1,5 +1,5 @@
 <div align="center"> 
-    <img src="docs/tiresia.png" width=226 height=270>
+    <img src="docs/tiresia.png" width=150 height=180>
 </div>
 
 # tiresia
