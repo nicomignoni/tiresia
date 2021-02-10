@@ -1,2 +1,4 @@
-# [Tiresias](https://en.wikipedia.org/wiki/Tiresias)
+# tiresia
 Tiny sklearn-based AutoML tool.
+
+[tiresia](https://en.wikipedia.org/wiki/Tiresias) is (for now) just a wrapper around sklearn GridSearchCV for quick model testing.
