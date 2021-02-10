@@ -50,6 +50,9 @@ class AutoPredictor:
         # Final results dataframe
         self.results = pd.DataFrame(columns={self.estimator_type.upper(), self.scoring.__name__})
 
+        # Predictions
+        self.predictions = dict()
+
         self.param_grid   = param_grid 
         self.random_state = random_state
         self.n_jobs       = n_jobs
@@ -61,9 +64,15 @@ class AutoPredictor:
             try:
                 start = time.time()
 
-                # Fit the current regressor and calculate the score
+                # Check if the estimator has a param_grid
+                if name in self.param_grid:
+                    estimator_grid = self.param_grid[name]
+                else:
+                    estimator_grid = dict()
+
+                # Fit the current estimator and calculate the score
                 model = GridSearchCV(estimator=estimator(),
-                                     param_grid=self.param_grid,
+                                     param_grid=estimator_grid,
                                      scoring=make_scorer(self.scoring,
                                                          self.greater_is_better),
                                      n_jobs=self.n_jobs)
