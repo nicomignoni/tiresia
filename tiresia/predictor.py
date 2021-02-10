@@ -22,7 +22,7 @@ class AutoPredictor:
                  verbose=True,
                  n_jobs=1):
 
-        self.estimator_type = estimator_type # ["classifier", "regressor"]
+        self.estimator_type = estimator_type
         
         # Load the estimators
         if models_to_test == "all":
@@ -38,21 +38,22 @@ class AutoPredictor:
 
         # Scoring function
         if scoring:
-            self.scoring = scoring
+            self.scoring           = scoring
+            self.greater_is_better = greater_is_better
         elif estimator_type == "regressor":
-            self.scoring = mean_squared_error
+            self.scoring           = mean_squared_error
+            self.greater_is_better = False
         elif estimator_type == "classifier":
-            self.scoring = accuracy_score
+            self.scoring           = accuracy_score
+            self.greater_is_better = True
 
         # Final results dataframe
-        self.results = pd.DataFrame(columns={self.estimator_type.upper(),
-                                             self.scoring.__name__})
+        self.results = pd.DataFrame(columns={self.estimator_type.upper(), self.scoring.__name__})
 
-        self.greater_is_better = greater_is_better
-        self.param_grid        = param_grid 
-        self.random_state      = random_state
-        self.n_jobs            = n_jobs
-        self.verbose           = verbose
+        self.param_grid   = param_grid 
+        self.random_state = random_state
+        self.n_jobs       = n_jobs
+        self.verbose      = verbose
 
     def fit(self, X_train, Y_train, X_val, Y_val):
         total_time = 0
@@ -85,7 +86,8 @@ class AutoPredictor:
                                                   ignore_index=True)
             except Exception as e:
                 print(f"- {name}: \n {e} \n")
-            
+
+        # Sort the results, depending on the nature of the scoring function
         self.results.sort_values(by=[self.scoring.__name__],
                                  ascending=not self.greater_is_better,
                                  inplace=True)
