@@ -7,7 +7,9 @@
 # tiresia
 
 ## Installation
-```pip install tiresia```
+```
+pip install tiresia
+```
 
 ## Description
 [tiresia](https://en.wikipedia.org/wiki/Tiresias) is just a wrapper around [scikit-learn](https://scikit-learn.org/stable/) ```GridSearchCV```. The idea is to simplify the model testing workflow. With tiresia you can choose which models to test and to exclude and provide a ```param_grid``` for the ones you want to explore deeper, while keeping the parameters of the less interesting ones on default. 
