@@ -1,6 +1,8 @@
-[//]: # "<div align="center">"
-[//]: # "   <img src="docs/tiresia.png" width=150 height=180>"
-[//]: # "</div>"
+<!---
+<div align="center">
+    <img src="docs/tiresia.png" width=150 height=180>
+</div>
+--->
 
 # tiresia
 
