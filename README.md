@@ -1,7 +1,9 @@
 <div align="center"> 
-    <img src="docs/tiresia.png>
+    <img src="docs/tiresia.png" width=226 height=270>
 </div>
+
 ---
+
 # tiresia
 Tiny sklearn-based AutoML tool.
 
