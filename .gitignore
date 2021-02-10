@@ -1,3 +1,5 @@
-__pycache__/*
-docs/tiresia.png
-tiresia.egg-info/*
+__pycache__
+docs
+*.egg-info
+dist
+build
