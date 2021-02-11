@@ -1,6 +1,7 @@
 to_ignore = {"regressor": {"TheilSenRegressor",
                            "ARDRegression",
-                           "CCA", 
+                           "CCA",
+                           "GammaRegressor",
                            "IsotonicRegression", 
                            "StackingRegressor",
                            "MultiOutputRegressor", 

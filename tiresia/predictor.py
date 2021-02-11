@@ -14,13 +14,8 @@ class AutoPredictor:
                  estimator_type="regressor",
                  models_to_test="all",
                  models_to_exclude=[],
-                 scoring=None,
-                 greater_is_better=False,
-                 param_grid=dict(),
                  disable_warings=True,
-                 random_state=42,
-                 verbose=True,
-                 n_jobs=1):
+                 random_state=42):
 
         self.estimator_type = estimator_type
         
@@ -36,50 +31,53 @@ class AutoPredictor:
             import warnings
             warnings.filterwarnings("ignore")
 
-        # Scoring function
-        if scoring:
-            self.scoring           = scoring
-            self.greater_is_better = greater_is_better
-        elif estimator_type == "regressor":
-            self.scoring           = mean_squared_error
-            self.greater_is_better = False
-        elif estimator_type == "classifier":
-            self.scoring           = accuracy_score
-            self.greater_is_better = True
+        self.random_state = random_state
 
-        # Final results dataframe
-        self.results = pd.DataFrame(columns={self.estimator_type.upper(), self.scoring.__name__})
+    def fit(self,
+            X_train, Y_train, X_val, Y_val,
+            param_grid=dict(),
+            scoring=None,
+            greater_is_better=False,
+            n_jobs=1,
+            verbose=1):
+        
+        total_time = 0
 
         # Predictions and best params
         self.predictions = dict()
         self.best_params = dict()
 
-        self.param_grid   = param_grid 
-        self.random_state = random_state
-        self.n_jobs       = n_jobs
-        self.verbose      = verbose
+        # Scoring function
+        if scoring:
+            pass
+        elif self.estimator_type == "regressor":
+            scoring           = mean_squared_error
+            greater_is_better = False
+        elif self.estimator_type == "classifier":
+            scoring           = accuracy_score
+            greater_is_better = True
 
-    def fit(self, X_train, Y_train, X_val, Y_val):
-        total_time = 0
+        # Final results dataframe
+        self.results = pd.DataFrame(columns={self.estimator_type.upper(), scoring.__name__})
+            
         for name, estimator in self.estimators.items():
             try:
                 start = time.time()
 
                 # Check if the estimator has a param_grid
-                if name in self.param_grid:
-                    estimator_grid = self.param_grid[name]
+                if name in param_grid:
+                    estimator_grid = param_grid[name]
                 else:
                     estimator_grid = dict()
 
                 # Fit the current estimator and calculate the score
                 model = GridSearchCV(estimator=estimator(),
                                      param_grid=estimator_grid,
-                                     scoring=make_scorer(self.scoring,
-                                                         self.greater_is_better),
-                                     n_jobs=self.n_jobs)
+                                     scoring=make_scorer(scoring, greater_is_better),
+                                     n_jobs=n_jobs)
                 model.fit(X_train, Y_train)
                 preds = model.predict(X_val)
-                score = self.scoring(Y_val, preds)
+                score = scoring(Y_val, preds)
 
                 end = time.time()
 
@@ -90,22 +88,22 @@ class AutoPredictor:
                 self.best_params[name] = model.best_params_
 
                 # Print the current estimator progresses
-                if self.verbose:
-                    print_progress(name, time_elapsed, self.scoring.__name__, score)
+                if verbose > 0:
+                    print_progress(name, time_elapsed, scoring.__name__, score)
 
                 # Append results for the current regressor
                 self.results = self.results.append({self.estimator_type.upper() : name,
-                                                    self.scoring.__name__: "{:.3f}".format(score)},
+                                                    scoring.__name__: "{:.3f}".format(score)},
                                                   ignore_index=True)
             except Exception as e:
                 print(f"- {name}: \n {e} \n")
 
         # Sort the results, depending on the nature of the scoring function
-        self.results.sort_values(by=[self.scoring.__name__],
-                                 ascending=not self.greater_is_better,
+        self.results.sort_values(by=[scoring.__name__],
+                                 ascending=not greater_is_better,
                                  inplace=True)
         
-        if self.verbose:
+        if verbose > 0:
             print("Total time elapsed: {:.3f}".format(total_time))
 
         

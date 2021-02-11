@@ -3,3 +3,4 @@ docs
 *.egg-info
 dist
 build
+run_test.sh

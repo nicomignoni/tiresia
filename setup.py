@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="tiresia",
-    version="0.0.1",
+    version="0.0.11",
     author="Nicola Mignoni",
     author_email="nicola.mignoni@gmail.com",
     description="Tiny sklearn-based AutoML tool.",
