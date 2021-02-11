@@ -1,24 +1,36 @@
+'''Mock test. TODO: score type check & estimator presence''' 
+import unittest
+
 from tiresia.predictor import AutoPredictor
 
 from sklearn.datasets import make_regression, make_classification
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import roc_auc_score, r2_score
 
-test_type = "classifier"
+class TestPredictor(unittest.TestCase):
+   
+    def test_regressor(self):
+		reg_train, reg_target = make_regression(1000, 20)
+        reg_x_train, reg_x_test, reg_y_train, reg_y_test = train_test_split(train, target, test_size=0.3)
+		
+        reg_autopred = AutoPredictor(estimator_type="regressor")
+        reg_autopred.fit(reg_x_train, reg_y_train, reg_x_test, reg_y_test)
+		
+		print(reg_autopred.results)
+		
+		self.assertIsNotNone(reg_autopred.results)
+            
+    def test_classifier(self):
+		clf_train, clf_target = make_classification(1000, 20)
+        clf_x_train, clf_x_test, clf_y_train, clf_y_test = train_test_split(train, target, test_size=0.3)
+		
+        clf_autopred = AutoPredictor(estimator_type="classifier")
+        clf_autopred.fit(clf_x_train, clf_y_train, clf_x_test, clf_y_test)
+		
+		print(clf_autopred.results)
+		
+		self.assertIsNotNone(clf_autopred.results)
 
-if test_type == "classifier":
-    train, target = make_classification(1000, 20)
-elif test_type == "regressor":
-    train, target = make_regression(1000, 20)
-    
-x_train, x_test, y_train, y_test = train_test_split(train, target, test_size=0.3)
-
-autopred = AutoPredictor(estimator_type=test_type)
-        
-autopred.fit(x_train, y_train, x_test, y_test, scoring=roc_auc_score, greater_is_better=True)
-
-predictions = autopred.predictions
-results     = autopred.results
-
-print(results)
+   
+if __name__ == "__main__":
+    unittest.main()
 
