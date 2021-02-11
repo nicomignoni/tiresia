@@ -6,6 +6,9 @@
 
 # tiresia
 
+![Code Grade](https://www.code-inspector.com/project/18888/status/svg)
+[![PyPI version shields.io](https://img.shields.io/pypi/v/tiresia.svg)](https://pypi.python.org/pypi/tiresia/)
+
 ## Installation
 ```
 pip install tiresia
