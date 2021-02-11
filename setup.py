@@ -1,7 +1,5 @@
-import os
 import setuptools
 
-directory = os.path.abspath(os.path.dirname(__file__))
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
