@@ -40,45 +40,43 @@ predictions = autopred.predictions
 results     = autopred.results
 
 print(results)
-```
-The last line will print the DataFrame containing the results for each tested models.
 
-| REGRESSOR                     | r2_score |
-|-------------------------------|----------|
-| LassoCV                       | 1.000    |
-| HuberRegressor                | 1.000    |
-| LinearSVR                     | 1.000    |
-| LinearRegression              | 1.000    |
-| LassoLarsIC                   | 1.000    |
-| LassoLarsCV                   | 1.000    |
-| RANSACRegressor               | 1.000    |
-| Lasso                         | 1.000    |
-| LarsCV                        | 1.000    |
-| Lars                          | 1.000    |
-| KernelRidge                   | 1.000    |
-| PassiveAggressiveRegressor    | 1.000    |
-| Ridge                         | 1.000    |
-| RidgeCV                       | 1.000    |
-| SGDRegressor                  | 1.000    |
-| TransformedTargetRegressor    | 1.000    |
-| BayesianRidge                 | 1.000    |
-| MLPRegressor                  | 0.998    |
-| ElasticNetCV                  | 0.992    |
-| HistGradientBoostingRegressor | 0.957    |
-| GradientBoostingRegressor     | 0.925    |
-| ElasticNet                    | 0.881    |
-| ExtraTreesRegressor           | 0.853    |
-| OrthogonalMatchingPursuitCV   | 0.827    |
-| RandomForestRegressor         | 0.824    |
-| BaggingRegressor              | 0.794    |
-| AdaBoostRegressor             | 0.751    |
-| TweedieRegressor              | 0.743    |
-| KNeighborsRegressor           | 0.686    |
-| DecisionTreeRegressor         | 0.486    |
-| OrthogonalMatchingPursuit     | 0.387    |
-| ExtraTreeRegressor            | 0.386    |
-| SVR                           | 0.357    |
-| LassoLars                     | 0.353    |
-| NuSVR                         | 0.285    |
-| GaussianProcessRegressor      | 0.038    |
-| DummyRegressor                | -0.003   |
+                        REGRESSOR r2_score
+18                        LassoCV    1.000
+12                 HuberRegressor    1.000
+23                      LinearSVR    1.000
+22               LinearRegression    1.000
+21                    LassoLarsIC    1.000
+20                    LassoLarsCV    1.000
+29                RANSACRegressor    1.000
+17                          Lasso    1.000
+16                         LarsCV    1.000
+15                           Lars    1.000
+14                    KernelRidge    1.000
+28     PassiveAggressiveRegressor    1.000
+31                          Ridge    1.000
+32                        RidgeCV    1.000
+33                   SGDRegressor    1.000
+35     TransformedTargetRegressor    1.000
+2                   BayesianRidge    1.000
+24                   MLPRegressor    0.998
+6                    ElasticNetCV    0.992
+11  HistGradientBoostingRegressor    0.957
+10      GradientBoostingRegressor    0.925
+5                      ElasticNet    0.881
+8             ExtraTreesRegressor    0.853
+27    OrthogonalMatchingPursuitCV    0.827
+30          RandomForestRegressor    0.824
+1                BaggingRegressor    0.794
+0               AdaBoostRegressor    0.751
+36               TweedieRegressor    0.743
+13            KNeighborsRegressor    0.686
+3           DecisionTreeRegressor    0.486
+26      OrthogonalMatchingPursuit    0.387
+7              ExtraTreeRegressor    0.386
+34                            SVR    0.357
+19                      LassoLars    0.353
+25                          NuSVR    0.285
+9        GaussianProcessRegressor    0.038
+4                  DummyRegressor   -0.003
+```
