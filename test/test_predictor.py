@@ -15,9 +15,8 @@ class TestPredictor(unittest.TestCase):
         reg_autopred = AutoPredictor(estimator_type="regressor")
         reg_autopred.fit(reg_x_train, reg_y_train, reg_x_test, reg_y_test)
 		
-		print(reg_autopred.results)
-		
-		self.assertIsNotNone(reg_autopred.results)
+	print(reg_autopred.results)
+	self.assertIsNotNone(reg_autopred.results)
             
     def test_classifier(self):
 		clf_train, clf_target = make_classification(1000, 20)
@@ -26,9 +25,8 @@ class TestPredictor(unittest.TestCase):
         clf_autopred = AutoPredictor(estimator_type="classifier")
         clf_autopred.fit(clf_x_train, clf_y_train, clf_x_test, clf_y_test)
 		
-		print(clf_autopred.results)
-		
-		self.assertIsNotNone(clf_autopred.results)
+	print(clf_autopred.results)
+	self.assertIsNotNone(clf_autopred.results)
 
    
 if __name__ == "__main__":
